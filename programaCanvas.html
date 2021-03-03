@@ -1,0 +1,95 @@
+<canvas width="600" height="400"></canvas>
+<h3>Selecione a cor <input type="color"></h3>
+<h3>SHIFT = Aumenta o raio / ALT = Diminui o raio </h3>
+
+
+<script>
+	var paleta = document.querySelector('input');
+	var tela = document.querySelector('canvas');
+	var pincel = tela.getContext('2d');
+	var cores = ['blue', 'red', 'green'];
+	var indiceCorAtual = 0; //inicia com blue
+
+	var raio = 10;
+
+	pincel.fillStyle = 'grey';
+	pincel.fillRect(0,0,600,400);
+
+	var desenha = false;
+
+	function desenhaCirculo(evento) {
+
+		if(desenha){
+			//mostra os marcadores da tela -> offset serve para tirar as margens naturais do canvas para melhor posicionamento;
+			var x = evento.pageX - tela.offsetLeft;
+			var y = evento.pageY - tela.offsetTop;
+			//cria o pincel; 
+			pincel.fillStyle = paleta.value; //cores[indiceCorAtual] - insere a variavel dentro do array para poder selecionar as cores
+			pincel.beginPath();
+			//define o tipo do pincel, nesse caso 'arc' cria um círculo e as propriedades vão entre parenteses;
+			pincel.arc(x,y,raio,0,2*3.14);
+			pincel.fill();
+		
+		}
+
+		console.log(x + ',' + y);
+
+		if(evento.shiftKey){
+			raio = raio + 20;
+		}
+		if(evento.altKey){
+			raio = raio - 5;
+		}
+		if (raio > 40 ){
+			raio = 40;
+		}
+		if (raio < 10){
+			raio = 10;
+		}
+
+	}
+
+	tela.onmousemove = desenhaCirculo;
+
+	function habilitaDesenhar(){
+		desenha = true;
+	}
+
+	function desabilitaDesenhar(){
+		desenha = false;
+	}
+
+	tela.onmousedown = habilitaDesenhar;
+	tela.onmouseup = desabilitaDesenhar;
+
+	/*function mudaCor(){
+
+		indiceCorAtual++;
+		if (indiceCorAtual >= cores.length) {
+
+			indiceCorAtual = 0; //Desse jeito quando se clica mais de duas vezes a cor volta para 0 ou seja blue.
+		}
+		if(indiceCorAtual == 0){
+
+			alert('A cor selecionada é azul');
+		}
+		if(indiceCorAtual == 1){
+
+			alert('A cor selecionada é vermelho');
+		}
+		if(indiceCorAtual == 2){
+
+			alert('A cor selecionada é verde');
+		}
+		
+		return false; //para não exibir o menu normal do botão direito;
+	}
+
+	tela.oncontextmenu = mudaCor;*/
+
+
+		
+
+	
+
+</script>
